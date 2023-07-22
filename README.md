@@ -65,3 +65,7 @@ Feature 6: Display Charts Visualizing Event Details
 Given: the user is viewing the event details page
 When: the user taps on a "view charts" button or a specific tab within the event details page
 Then: the application retrieves relevant data and generates visually appealing charts, presenting them to the user within the event details page to provide additional insights or statistics about the event.
+
+## Serverless Functionality 
+
+Serverless functions will be utilized in this application to meet the needs of on-demand processing and scalability.  When users want to filter events by city for example, the serverless function can handle the processing and filtering tasks.  Serverless technology will also be used to display the charts, due to the ability serverless functions have to scale based on the current user's need.
