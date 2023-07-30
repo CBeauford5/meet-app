@@ -1,17 +1,27 @@
-import { render } from '@testing-library/react';
+import React from 'react';
+import { shallow } from 'enzyme';
 import App from '../App';
+import EventList from '../components/EventList';
+import CitySearch from '../components/CitySearch';
+import NumberOfEvents from '../components/NumberOfEvents';
 
-describe('<App /> component', () => {
-  let AppDOM;
-  beforeEach(() => {
-    AppDOM = render(<App />).container.firstChild;
-  })
+describe('<App /> component', () => { // describe() function groups tests together
+    let AppWrapper;
+    beforeAll(() => {
+        AppWrapper = shallow(<App />); // shallow rendering
+    });
 
-  test('renders list of events', () => {
-    expect(AppDOM.querySelector('#event-list')).toBeInTheDocument();
-  });
+    test('render list of events', () => {
+        expect(AppWrapper.find(EventList)).toHaveLength(1); // check if EventList component is rendered
+    });
 
-  test('render CitySearch', () => {
-    expect(AppDOM.querySelector('#city-search')).toBeInTheDocument();
-  });
+    test('render CitySearch', () => {
+        expect(AppWrapper.find(CitySearch)).toHaveLength(1); // check if CitySearch component is rendered
+    });
+
+    test('render NumberOfEvents', () => {
+        expect(AppWrapper.find(NumberOfEvents)).toHaveLength(1); // check if NumberOfEvents component is rendered
+    });
+
+
 });

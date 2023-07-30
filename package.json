@@ -5,10 +5,10 @@
   "homepage": "https://cbeauford5.github.io/meet-app",
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",
-    "@testing-library/react": "^13.4.0",
-    "@testing-library/user-event": "^14.4.3",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
+    "@testing-library/react": "^12.0.4",
+    "@testing-library/user-event": "^12.0.9",
+    "react": "^17.0.0",
+    "react-dom": "^17.0.0",
     "react-scripts": "5.0.1",
     "web-vitals": "^2.1.4",
     "workbox-background-sync": "^6.6.0",
@@ -51,6 +51,8 @@
     ]
   },
   "devDependencies": {
+    "@wojtekmaj/enzyme-adapter-react-17": "^0.8.0",
+    "enzyme": "^3.11.0",
     "gh-pages": "^5.0.0"
   }
 }

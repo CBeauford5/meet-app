@@ -1,20 +1,12 @@
-import { render } from '@testing-library/react';
-import EventList from '../components/EventList';
-import { getEvents } from '../api';
+import React from "react";
+import { shallow } from "enzyme";
+import EventList from "../components/EventList";
+import Event from "../components/Event";
+import { mockData } from "../mock-data";
 
-describe('<EventList /> component', () => {
-  let EventListComponent;
-  beforeEach(() => {
-    EventListComponent = render(<EventList />);
-  })
-
-  test('has an element with "list" role', () => {
-    expect(EventListComponent.queryByRole("list")).toBeInTheDocument();
-  });
-
-  test('renders correct number of events', async () => {
-    const allEvents = await getEvents();
-    EventListComponent.rerender(<EventList events={allEvents} />);
-    expect(EventListComponent.getAllByRole("listitem")).toHaveLength(allEvents.length);
+describe("<EventList /> component", () => {
+  test("render correct number of events", () => {
+    const EventListWrapper = shallow(<EventList events={mockData} />);
+    expect(EventListWrapper.find(Event)).toHaveLength(mockData.length);
   });
 });
