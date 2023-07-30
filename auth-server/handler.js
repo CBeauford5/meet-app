@@ -1,5 +1,3 @@
-'use strict';
-
 const { google } = require("googleapis");
 const calendar = google.calendar("v3");
 const SCOPES = ["https://www.googleapis.com/auth/calendar.events.public.readonly"];
@@ -70,11 +68,6 @@ module.exports.getAccessToken = async (event) => {
 };
 
 module.exports.getCalendarEvents = async (event) => {
-  const oAuth2Client = new google.auth.OAuth2(
-    CLIENT_ID,
-    CLIENT_SECRET,
-    redirect_uris[0]
-  );
   const access_token = decodeURIComponent(
     `${event.pathParameters.access_token}`
   );
