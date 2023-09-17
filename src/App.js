@@ -1,19 +1,16 @@
-import React, { Component } from "react";
-import "./App.css";
-import EventList from "./components/EventList";
-import CitySearch from "./components/CitySearch";
-import NumberOfEvents from "./components/NumberOfEvents";
+import EventList from './components/EventList';
+import CitySearch from './components/CitySearch';
+import NumberOfEvents from './components/NumberOfEvents';
+import './App.css';
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <CitySearch />
-        <EventList />
-        <NumberOfEvents />
-      </div>
-    );
-  }
-}
+const App = () => {
+  return (
+    <div className="App">
+      <NumberOfEvents></NumberOfEvents>
+      <EventList></EventList>
+      <CitySearch></CitySearch>
+    </div>
+  );
+};
 
 export default App;

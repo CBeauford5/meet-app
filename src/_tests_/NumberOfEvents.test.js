@@ -1,39 +1,26 @@
-import React from "react";
-import { shallow } from "enzyme";
-import NumberOfEvents from "../components/NumberOfEvents";
+import userEvent from '@testing-library/user-event';
+import NumberOfEvents from '../components/NumberOfEvents';
+import { render } from '@testing-library/react';
 
-describe("<NumberOfEvents /> component", () => {
-    let NumberOfEventsWrapper;
-    beforeAll(() => {
-        NumberOfEventsWrapper = shallow(<NumberOfEvents />);
-    });
+describe('<NumberOfEvents /> Component', () => {
+  let NumberOfEventsComponent;
+  beforeEach(() => {
+    NumberOfEventsComponent = render(<NumberOfEvents />);
+  });
 
-    test("render number of events", () => { 
-        expect(NumberOfEventsWrapper.find(".number-of-events")).toHaveLength(1);
-    });
+  test('has the input textbox', () => {
+    const input = NumberOfEventsComponent.queryByRole('textbox');
+    expect(input).toBeInTheDocument();
+  });
 
-    test("render number of events input", () => {
-        expect(NumberOfEventsWrapper.find(".number-of-events-input")).toHaveLength(
-        1
-        );
-    });
+  test('default number of events is 32', () => {
+    const input = NumberOfEventsComponent.queryByRole('textbox');
+    expect(input).toHaveValue('32');
+  });
 
-    test("render number of events label", () => {
-        expect(NumberOfEventsWrapper.find(".number-of-events-label")).toHaveLength(
-        1
-        );
-    });
-
-    test("render number of events input correctly", () => {
-        const numberOfEvents = NumberOfEventsWrapper.state("query");
-        expect(NumberOfEventsWrapper.find(".number-of-events-input").prop("value")).toBe(
-        numberOfEvents
-        );
-    });
-
-    test("change state when input changes", () => {
-        const eventObject = { target: { value: 10 } };
-        NumberOfEventsWrapper.find(".number-of-events-input").simulate("change", eventObject);
-        expect(NumberOfEventsWrapper.state("query")).toBe(10);
-    });
-    });
+  test('updates number of events when user types', async () => {
+    const input = NumberOfEventsComponent.queryByRole('textbox');
+    await userEvent.type(input, '{backspace}{backspace}10');
+    expect(input).toHaveValue('10');
+  });
+});

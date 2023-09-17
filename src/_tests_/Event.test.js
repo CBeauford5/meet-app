@@ -1,38 +1,61 @@
-import React from "react";
-import { shallow } from "enzyme";
-import Event from "../components/Event";
-import { mockData } from "../mock-data";
+import { render } from '@testing-library/react';
+import Event from '../components/Event';
+import mockData from '../mock-data';
+import userEvent from '@testing-library/user-event';
 
-describe("<Event /> component", () => {
-    let EventWrapper;
-    beforeAll(() => {
-        EventWrapper = shallow(<Event event={mockData[0]} />);
-    });
-    test("render event", () => {
-        expect(EventWrapper.find(".event")).toHaveLength(1);
-    });
-    test("render event name", () => {
-        expect(EventWrapper.find(".summary")).toHaveLength(1);
-    });
-    test("render event location", () => {
-        expect(EventWrapper.find(".event-location")).toHaveLength(1);
-    });
-    test("render event date", () => {
-        expect(EventWrapper.find(".event-start")).toHaveLength(1);
-    } );
-    test("render show details button", () => {
-        expect(EventWrapper.find(".details-btn")).toHaveLength(1);
-    });
-    test("click on show details button", () => {
-        EventWrapper.setState({ showDetails: false });
-        EventWrapper.find(".details-btn").simulate("click");
-        expect(EventWrapper.state("showDetails")).toBe(true);
-    });
-    test("render event link", () => {
-        expect(EventWrapper.find(".event-link")).toHaveLength(1);
-    });
-    test("render event details correctly", () => {
-        EventWrapper.setState({ showDetails: true });
-        expect(EventWrapper.find(".event-details")).toHaveLength(1);
-    });
+const mockEvent = mockData[0];
+
+describe('<Event /> Component', () => {
+  let EventComponent;
+  beforeEach(() => {
+    EventComponent = render(<Event event={mockEvent} />);
+  });
+
+  test('has the events title', () => {
+    const title = EventComponent.queryByText(mockEvent.summary);
+    expect(title).toBeInTheDocument();
+  });
+
+  test('has the events time', () => {
+    const time = EventComponent.queryByText(mockEvent.created);
+    expect(time).toBeInTheDocument();
+  });
+
+  test('has the events location', () => {
+    const location = EventComponent.queryByText(mockEvent.location);
+    expect(location).toBeInTheDocument();
+  });
+
+  test('has the button "show details"', () => {
+    const button = EventComponent.queryByText('Show Details');
+    expect(button).toBeInTheDocument();
+  });
+
+  test('by default event details are hidden', () => {
+    const eventDOM = EventComponent.container.firstChild;
+    const details = eventDOM.querySelector('.details');
+    expect(details).not.toBeInTheDocument();
+  });
+
+  test('show details after user clicks button "show details"', async () => {
+    const user = userEvent.setup();
+    const button = EventComponent.queryByText('Show Details');
+    await user.click(button);
+
+    const eventDOM = EventComponent.container.firstChild;
+    const details = eventDOM.querySelector('.details');
+    expect(details).toBeInTheDocument();
+  });
+
+  test('hide details after user clicks button "hide details"', async () => {
+    const button = EventComponent.queryByText('Show Details');
+    const eventDOM = EventComponent.container.firstChild;
+    await userEvent.click(button);
+
+    const hideButton = EventComponent.queryByText('Hide Details');
+    await userEvent.click(hideButton);
+
+    const details = eventDOM.querySelector('.details');
+    expect(details).not.toBeInTheDocument();
+  });
 });
