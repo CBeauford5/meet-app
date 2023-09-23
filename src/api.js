@@ -40,7 +40,7 @@ const removeQuery = () => {
 const getToken = async (code) => {
   const encodeCode = encodeURIComponent(code);
   const response = await fetch(
-    'https://ea86jt5obj.execute-api.eu-central-1.amazonaws.com/dev/api/token' +
+    "https://ea86jt5obj.execute-api.eu-central-1.amazonaws.com/dev/api/token" +
       '/' +
       encodeCode
   );
@@ -48,27 +48,6 @@ const getToken = async (code) => {
   access_token && localStorage.setItem('access_token', access_token);
 
   return access_token;
-};
-
-export const getAccessToken = async () => {
-  const accessToken = localStorage.getItem('access_token');
-  const tokenCheck = accessToken && (await checkToken(accessToken));
-  if (!accessToken || tokenCheck.error) {
-    await localStorage.removeItem('access_token');
-    const searchParams = new URLSearchParams(window.location.search);
-    const code = await searchParams.get('code');
-    if (!code) {
-      const response = await fetch(
-        'https://ea86jt5obj.execute-api.eu-central-1.amazonaws.com/dev/api/get-auth-url'
-      );
-      const result = await response.json();
-      const { authUrl } = result;
-      return (window.location.href = authUrl);
-    }
-    return code && getToken(code);
-  }
-
-  return accessToken;
 };
 
 /**
@@ -85,7 +64,7 @@ export const getEvents = async () => {
   if (token) {
     removeQuery();
     const url =
-      'https://ea86jt5obj.execute-api.eu-central-1.amazonaws.com/dev/api/get-events' +
+      "https://ea86jt5obj.execute-api.eu-central-1.amazonaws.com/dev/api/get-events" +
       '/' +
       token;
     const response = await fetch(url);
@@ -94,4 +73,25 @@ export const getEvents = async () => {
       return result.events;
     } else return null;
   }
+};
+
+export const getAccessToken = async () => {
+  const accessToken = localStorage.getItem('access_token');
+  const tokenCheck = accessToken && (await checkToken(accessToken));
+  if (!accessToken || tokenCheck.error) {
+    await localStorage.removeItem('access_token');
+    const searchParams = new URLSearchParams(window.location.search);
+    const code = await searchParams.get('code');
+    if (!code) {
+      const response = await fetch(
+        "https://ea86jt5obj.execute-api.eu-central-1.amazonaws.com/dev/api/get-auth-url"
+      );
+      const result = await response.json();
+      const { authUrl } = result;
+      return (window.location.href = authUrl);
+    }
+    return code && getToken(code);
+  }
+
+  return accessToken;
 };
